@@ -1,0 +1,79 @@
+﻿@page
+@model AdminModel
+@{
+    ViewData["Title"] = "Admin Portal";
+}
+
+<div class="d-flex flex-column align-items-center">
+    <h1>Admin Portal</h1>
+    <div class="row">
+        <div class="col-md-6 d-flex">
+            <div class="card p-3 d-flex tall-card" style="width:40em;">
+                <div class="d-flex justify-content-center">
+                    <h3>New Post</h3>
+                </div>
+                <form method="post" class="d-flex justify-content-center flex-column align-items-center pb-0">
+                    <textarea asp-for="Post" class="form-control text-area" placeholder="Post text"></textarea>
+                    <input asp-page-handler="Add" type="submit" value="Submit" class="btn btn-success mt-3" style="width:100%;"/>
+                    <label class="mt-2">@Model.Message</label>
+                </form>
+                    
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card p-3 d-flex">
+                <div class="d-flex justify-content-center">
+                    <h3>Email Subscriptions</h3>
+                </div>
+                <div class="form-control text-area" placeholder="Emails" id="emails">
+                    @foreach (var email in Model.Emails)
+                    {
+                        @: @email.EmailAddress.ToString()<br/>     
+                        
+                    }</div>
+                <button class="btn btn-warning mt-3" id="copy-button" onclick="copyText()">Copy to Clipboard</button>
+                <label class="mt-2"></label>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    function copyText() {
+        var textToCopy = document.getElementById("emails");
+
+        var currentRange;
+        if (document.getSelection().rangeCount > 0)
+         {
+            //the user has a text selection range, store it
+            currentRange = document.getSelection().getRangeAt(0);
+            //remove the current selection
+            window.getSelection().removeRange(currentRange);
+        }
+        else
+        {
+            //they didn't have anything selected
+            currentRange = false;
+        }
+
+        //create a selection range
+        var CopyRange = document.createRange();
+        //choose the element we want to select the text of
+        CopyRange.selectNode(textToCopy);
+        //select the text inside the range
+        window.getSelection().addRange(CopyRange);
+        //copy the text to the clipboard
+        document.execCommand("copy");
+        document.getElementById("copy-button").innerHTML = "Text copied!";
+
+        //remove our selection range
+        window.getSelection().removeRange(CopyRange);
+
+        //return the old selection range
+        if (currentRange) {
+            window.getSelection().addRange(currentRange);
+        }
+    }
+</script>

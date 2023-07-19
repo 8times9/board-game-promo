@@ -1,0 +1,22 @@
+﻿@page
+@model AdminLoginModel
+@{
+    ViewData["Title"] = "Please log in";
+}
+
+<div class="d-flex flex-column align-items-center">
+    <h1>Admin Page</h1>
+    <div class="card p-3">
+        <form method="post" class="d-flex flex-column justify-content-center align-items-center">
+            <h3>Username</h3>
+            <input type="text" asp-for="AdminUsername" class="form-control" placeholder="Username"/>
+
+            <h3>Password</h3>
+            <input type="password" asp-for="AdminPassword" class="form-control" placeholder="Password"/>
+
+            <input type="submit" value="Submit" class="btn btn-success btn-ml mt-3" asp-page-handler="Login" />
+            <label style="color:@Model.MessageColor">@Model.Message</label>
+        </form>
+    </div>
+
+</div>
